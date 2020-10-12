@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 const initialMovies = {
@@ -15,13 +15,24 @@ const initialMovies = {
   ]
 }
 
+const initialActors = {
+  listName: 'best actors',
+  actors: [
+    'Leonardo DiCaprio',
+    'Tom Hardy',
+    'Reese Witherspoon',
+    'Angelina Jolie',
+    'Orlando Bloom'
+  ]
+}
+
 function movies(state = initialMovies, action) {
   switch (action.type) {
-    case 'ADD':
+    case 'ADD_MOVIES':
       return {
         ...state, movies: [...state.movies, action.movie]
       }
-    case 'RESET':
+    case 'RESET_MOVIES':
     return {
       ...state, movies: []
     }
@@ -30,7 +41,24 @@ function movies(state = initialMovies, action) {
   }
 }
 
-const store = createStore(movies, composeWithDevTools())
+function actors(state = initialActors, action) {
+  switch (action.type) {
+    case 'ADD_ACTORS':
+      return {
+        ...state, actors: [...state.actors, action.actors]
+      }
+    case 'RESET_ACTORS':
+    return {
+      ...state, actors: []
+    }
+    default:
+      return state
+  }
+}
+
+const allReducers = combineReducers({movies, actors})
+
+const store = createStore(allReducers, composeWithDevTools())
 window.store = store;
 
 function App() {
