@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { createStore } from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
 const initialMovies = {
   listName: 'favorite movies',
@@ -29,7 +30,7 @@ function movies(state = initialMovies, action) {
   }
 }
 
-const store = createStore(movies)
+const store = createStore(movies, composeWithDevTools())
 window.store = store;
 
 function App() {
